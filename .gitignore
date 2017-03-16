@@ -1,0 +1,4 @@
+/prj/db
+/prj/incremental_db/compiled_partitions
+/prj/output_files
+/*.pui
