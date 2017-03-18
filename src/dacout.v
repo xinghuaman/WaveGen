@@ -27,8 +27,11 @@
 
 `define  DAC_RW_WRITE   1'b0
 `define  DAC_RW_READ    1'b1
+
+`define  DAC_CMD_NOP    `DAC_CMD_NBIT'b000
 `define  DAC_CMD_RG     `DAC_CMD_NBIT'b001
 `define  DAC_CMD_CTRL   `DAC_CMD_NBIT'b010
+`define  DAC_CMD_CLR    `DAC_CMD_NBIT'b011
 
 /////////////////////////// MODULE //////////////////////////////
 
@@ -93,7 +96,6 @@ module dacout
    ////////////////// Serial Clock Generate
    
    reg  [`DAC_SCLK_DIV_NBIT-1:0] sclk_div_cnt;
-   wire sclk_en = (sclk_div_cnt==`DAC_SCLK_DIV-1);
    
    always@(posedge mclk) begin   
       sclk_div_cnt <= sclk_div_cnt + 1'b1;
@@ -101,7 +103,7 @@ module dacout
          sclk_div_cnt <= 0;
    end
    
-   assign sclk = (sclk_div_cnt>=0 && sclk_div_cnt<`DAC_SCLK_DIV/2);
+   assign sclk = sync ? (sclk_div_cnt>=0 && sclk_div_cnt<`DAC_SCLK_DIV/2) : `HIGH;
    
    ////////////////// Serial Output
    
@@ -109,11 +111,12 @@ module dacout
    reg                       fsm_start;
    reg  [4:0]                fsm_cnt;
    reg  [`DAC_DATA_NBIT-1:0] fsm_sf_data;
+   wire fsm_en = (sclk_div_cnt==`DAC_SCLK_DIV-1);
    
    always@(posedge mclk) begin
       fsm_start = ~txbuf_empty&start ? `HIGH : (fsm_st!=`ST_IDLE ? `LOW : fsm_start);
       txbuf_rd <= `LOW;
-      if(sclk_en) begin
+      if(fsm_en) begin
          case(fsm_st)
             `ST_IDLE: begin // IDLE state, wait for start
                fsm_cnt <= 0;
@@ -186,7 +189,7 @@ module dacout
             ldac <= `LOW;
          end
          `ST_DATA: begin
-            sync <= `HIGH;
+            sync <= (fsm_cnt>1);
             sdo  <= fsm_sf_data[`DAC_DATA_NBIT-1];
             ldac <= (fsm_cnt==0);
          end

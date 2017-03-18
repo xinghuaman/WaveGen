@@ -150,11 +150,11 @@ module top
    );
 
    assign SCLK  =  dac_sclk;
-   assign SYNC  = ~dac_sync;
    assign SDO   =  dac_sdo;
+   assign SYNC  = ~dac_sync;
+   assign LDAC  = ~dac_ldac;
    assign RESET = ~dac_reset;
    assign CLR   = ~dac_clr;
-   assign LDAC  = ~dac_ldac;
    
    ////////////////// Data Flow Control
    

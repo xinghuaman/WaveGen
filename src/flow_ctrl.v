@@ -79,8 +79,7 @@ module flow_ctrl
       if(f2s_start&sdram_wstatus) begin
          sdram_wren <= `HIGH;
          sdram_waddr <= sdram_waddr + 1'b1;
-         sdram_wdata <= sdram_wdata + 1'b1;
-         
+         sdram_wdata <= sdram_waddr<512 ? {1'b1,{`DAC_DATA_NBIT-1{1'b0}}} : {1'b0,{`DAC_DATA_NBIT-1{1'b1}}};
          if(sdram_waddr==1023) begin
             f2s_start <= `LOW;
             f2s_done  <= `HIGH;

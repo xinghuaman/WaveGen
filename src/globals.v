@@ -29,5 +29,5 @@
 `define DAC_SCLK_DIV       6
 
 `define DAC_SYNC_DIV_NBIT (5+`DAC_SCLK_DIV_NBIT) 
-`define DAC_SYNC_DIV      (27*`DAC_SCLK_DIV)
+`define DAC_SYNC_DIV      (28*`DAC_SCLK_DIV)
 
