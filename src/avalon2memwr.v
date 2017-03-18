@@ -42,7 +42,7 @@ module avalon2memwr
 
    ///////////////// PARAMETER ////////////////
    parameter P_DATA_NBIT = 32;
-   parameter P_ADDR_NBIT = 16;
+   parameter P_ADDR_NBIT = 24;
 
    ////////////////// PORT ////////////////////
    output [23:0]               avalon_address;

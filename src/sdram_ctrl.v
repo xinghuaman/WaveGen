@@ -116,9 +116,9 @@ module sdram_ctrl
    wire                        sdram_initdone;
    wire [P_ADDR_NBIT-1:0]      sdram_address;
    reg                         sdram_write;
-   wire [`SDRAM_DATA_NBIT-1:0] sdram_wdata;
+   wire [31:0]                 sdram_wdata;
    reg                         sdram_read;
-   wire [`SDRAM_DATA_NBIT-1:0] sdram_rdata;
+   wire [31:0]                 sdram_rdata;
    wire                        sdram_datavalid;
    reg                         wstatus=`HIGH;
    reg  [P_ADDR_NBIT-1:0]      prev_waddr;
@@ -129,9 +129,9 @@ module sdram_ctrl
    
    assign sdram_address = (~wstatus ? wr_buf_q[P_ADDR_NBIT+P_DATA_NBIT-1:P_DATA_NBIT] : {P_ADDR_NBIT{1'b0}}) |
                           (~rstatus ? rd_buf_q : {P_ADDR_NBIT{1'b0}});
-   assign sdram_wdata   = {wr_buf_q[P_DATA_NBIT-1:0],{`SDRAM_DATA_NBIT-P_DATA_NBIT{1'b0}}};
+   assign sdram_wdata   = {wr_buf_q[P_DATA_NBIT-1:0],{32-P_DATA_NBIT{1'b0}}};
    
-   assign rdata         = sdram_rdata[`SDRAM_DATA_NBIT-1:`SDRAM_DATA_NBIT-P_DATA_NBIT];
+   assign rdata         = sdram_rdata[31:32-P_DATA_NBIT];
    assign rdv           = sdram_datavalid;
 
    always@(posedge clk or negedge rst_n) begin
@@ -180,7 +180,7 @@ module sdram_ctrl
    end
    
    ////////////////// Avalon to Local Bus
-   avalon2memwr #(`SDRAM_DATA_NBIT,P_ADDR_NBIT)
+   avalon2memwr #(32,P_ADDR_NBIT)
    avalon2memwr_u
    (
       .inb_address         (sdram_address           ),

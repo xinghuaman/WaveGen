@@ -27,13 +27,14 @@ module sync_fifo
 );
  
    ///////////////// PARAMETER ////////////////
-   parameter p_nbit_d = 21;
-   parameter p_nbit_a = 4; // assume that depth of fifo is power of 2
-   // Optimization Level -- Read clk sync stages,metastability protextion,area,fmax
-   // 1: Lowest latency but requires synchronized clocks 1 sync stage
-   // 2: minimal setting for unsynchronized clock 2 sync stages
-   // 3: Best metastability protection,best fmax,unsynchronized clocks 3 or more sync stages
-   parameter p_optlevel = 3; 
+   parameter p_nbit_d    = 16;
+   parameter p_nbit_a    = 9; // assume that depth of fifo is power of 2
+   parameter p_optlevel  = 3; // Optimization Level: Read clk sync stages,metastability protextion,area,fmax
+                              //    1: Lowest latency but requires synchronized clocks 1 sync stage
+                              //    2: address registering, minimal setting for unsynchronized clock 2 sync stages
+                              //    3: address+q registering, best metastability protection,best fmax,unsynchronized clocks 3 or more sync stages
+   parameter p_datafirst = 0; // data available before rdreq
+   parameter p_vendor    = "altera";
 
    ////////////////// PORT ////////////////////
    input                 clk;
@@ -52,7 +53,7 @@ module sync_fifo
    reg  [p_nbit_a:0] rptr=0; 
    wire [p_nbit_a:0] wptrnext; 
    wire [p_nbit_a:0] rptrnext; 
-   assign wptrnext = (wr & ~full) ? wptr + 1'b1 : wptr;
+   assign wptrnext = (wr & ~full ) ? wptr + 1'b1 : wptr;
    assign rptrnext = (rd & ~empty) ? rptr + 1'b1 : rptr;
    
    always@(posedge clk) begin
@@ -76,7 +77,7 @@ module sync_fifo
    wire [p_nbit_a-1:0] waddr;
    wire [p_nbit_a-1:0] raddr;
    assign waddr = wptr[p_nbit_a-1:0];
-   assign raddr = rptr[p_nbit_a-1:0];
+   assign raddr = p_datafirst ? rptrnext[p_nbit_a-1:0] : rptr[p_nbit_a-1:0];
    
    // Full & Empty Condition
    reg full=1'b0;
@@ -91,7 +92,7 @@ module sync_fifo
             full <= 1'b1;
          else
             full <= 1'b0;
-         if(rptrnext == wptrnext)
+         if(p_datafirst ? (rptr == wptr) : (rptrnext == wptrnext))
             empty <= 1'b1;
          else
             empty <= 1'b0;
@@ -100,18 +101,22 @@ module sync_fifo
    
    ////////////////// FIFO Memory   
    wire [p_nbit_d-1:0] mem_rdata;
-   fifomem #(p_nbit_d,p_nbit_a,~(p_optlevel==1))
+   wire                mem_rd = p_datafirst ? 1'b1 : rd;
+generate if(p_vendor=="altera") begin: altera_ram
+   afifomem #(p_nbit_d,p_nbit_a,~(p_optlevel==1))
    fifomem_u
    (
-      .wclk (clk   ),
-      .wr   (wr    ),
-      .waddr(waddr ),
-      .wdata(wdata ),
-      .rclk (clk   ),
-      .rd   (rd    ),
-      .raddr(raddr ),
+      .wclk (clk      ),
+      .wr   (wr       ),
+      .waddr(waddr    ),
+      .wdata(wdata    ),
+      .rclk (clk      ),
+      .rd   (mem_rd   ),
+      .raddr(raddr    ),
       .rdata(mem_rdata)
    );
+end
+endgenerate
    
    // Read Data Output Register, Depend on optimization level
    reg [p_nbit_d-1:0] rdata;

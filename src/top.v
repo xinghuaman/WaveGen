@@ -43,26 +43,26 @@ module top
 );
 
    ////////////////// PORT ////////////////////
-   input                          CLK1; // 48MHz      
+   input          CLK1; // 48MHz      
 
-   output                         SCLK;
-   input                          SDIN;
-   output                         SYNC;
-   output                         SDO;
-   output                         RESET;
-   output                         CLR;
-   output                         LDAC;
+   output         SCLK;
+   input          SDIN;
+   output         SYNC;
+   output         SDO;
+   output         RESET;
+   output         CLR;
+   output         LDAC;
                                         
-   output [`SDRAM_ADDR_NBIT-1:0]  SDRAM_A;
-   inout  [`SDRAM_DATA_NBIT-1:0]  SDRAM_D;
-   output [`SDRAM_DQM_NBIT-1:0]   SDRAM_DQM;
-   output [`SDRAM_BA_NBIT-1:0]    SDRAM_BA;
-   output [`SDRAM_NCS_NBIT-1:0]   SDRAM_NCS;
-   output                         SDRAM_CKE;
-   output                         SDRAM_NRAS;
-   output                         SDRAM_NWE;
-   output                         SDRAM_CLK;
-   output                         SDRAM_NCAS;
+   output [12:0]  SDRAM_A;
+   inout  [31:0]  SDRAM_D;
+   output [3:0]   SDRAM_DQM;
+   output [1:0]   SDRAM_BA;
+   output [1:0]   SDRAM_NCS;
+   output         SDRAM_CKE;
+   output         SDRAM_NRAS;
+   output         SDRAM_NWE;
+   output         SDRAM_CLK;
+   output         SDRAM_NCAS;
 
    ////////////////// ARCH ////////////////////
       
@@ -77,47 +77,27 @@ module top
    );
 
    ////////////////// SDRAM Controller
-   wire                         sdram_wren ;
-   reg  [`BUFFER_ADDR_NBIT-1:0] sdram_waddr;
-   reg  [`BUFFER_DATA_NBIT-1:0] sdram_wdata;
-   wire                         sdram_wstatus;
-   
-   assign sdram_wren  = sdram_wstatus&(sdram_waddr>=0&&sdram_waddr<4);
-   
-   always@(posedge mclk) begin
-      if(sdram_wstatus) begin
-         sdram_waddr <= sdram_waddr + 1'b1;
-         sdram_wdata <= sdram_wdata + 1'b1;
-//         if(sdram_waddr==8'hFF)
-//            sdram_waddr <= sdram_waddr;
-      end
-   end
-   
-   wire                         sdram_rd;
-   reg  [`BUFFER_ADDR_NBIT-1:0] sdram_raddr=8'h7F;
-   wire [`BUFFER_DATA_NBIT-1:0] sdram_rdata;
-   wire                         sdram_rdv;
-   wire                         sdram_rstatus;   
-   wire                         sdram_rst_n;
-   wire                         sdram_cs_n;
+   wire                        sdram_wren ;
+   wire [`SDRAM_ADDR_NBIT-1:0] sdram_waddr;
+   wire [`SDRAM_DATA_NBIT-1:0] sdram_wdata;
+   wire                        sdram_wstatus;
+   wire                        sdram_rd;
+   wire [`SDRAM_ADDR_NBIT-1:0] sdram_raddr;
+   wire [`SDRAM_DATA_NBIT-1:0] sdram_rdata;
+   wire                        sdram_rdv;
+   wire                        sdram_rstatus;
+    
+   wire                        sdram_rst_n;
+   wire                        sdram_cs_n;
    
    assign SDRAM_NCS[0] = sdram_cs_n;
    assign SDRAM_NCS[1] = sdram_cs_n;
    assign sdram_rst_n  = `HIGH;
-   assign sdram_rd     = sdram_rstatus&(sdram_raddr>=0&&sdram_raddr<4);
    
-   assign SDO = &sdram_rdata;
-   
-   always@(posedge mclk) begin
-      if(sdram_rstatus) begin
-         sdram_raddr <= sdram_raddr + 1'b1;
-      end
-   end
-   
-   sdram_ctrl #(`BUFFER_DATA_NBIT,`BUFFER_ADDR_NBIT)
+   sdram_ctrl #(`SDRAM_DATA_NBIT,`SDRAM_ADDR_NBIT)
    sdram_ctrl_u(
       .clk       (mclk          ),
-      .rst_n     (`HIGH         ),
+      .rst_n     (sdram_rst_n   ),
       .wren      (sdram_wren    ),
       .waddr     (sdram_waddr   ),
       .wdata     (sdram_wdata   ),
@@ -137,5 +117,63 @@ module top
       .port_ras_n(SDRAM_NRAS    ),
       .port_we_n (SDRAM_NWE     )
    );
+   
+   ////////////////// AD5791 Controller
+   
+   wire                      dac_dv;         
+   wire [`DAC_DATA_NBIT-1:0] dac_data;       
+   wire                      dac_waitrequest;
+   wire                      dac_start;         
+   wire                      dac_sclk;          
+   wire                      dac_sdin = SDIN;          
+   wire                      dac_sdo;           
+   wire                      dac_sync;          
+   wire                      dac_ldac;          
+   wire                      dac_reset;         
+   wire                      dac_clr;           
+   
+   dacout ad5791_ctrl
+   (
+      .tx_clk        (mclk           ),
+      .tx_dv         (dac_dv         ),
+      .tx_data       (dac_data       ),
+      .tx_waitrequest(dac_waitrequest),
+      .mclk          (mclk           ),
+      .start         (dac_start      ),
+      .sclk          (dac_sclk       ),
+      .sdin          (dac_sdin       ),
+      .sdo           (dac_sdo        ),
+      .sync          (dac_sync       ),
+      .ldac          (dac_ldac       ),
+      .reset         (dac_reset      ),
+      .clr           (dac_clr        )
+   );
+
+   assign SCLK  =  dac_sclk;
+   assign SYNC  = ~dac_sync;
+   assign SDO   =  dac_sdo;
+   assign RESET = ~dac_reset;
+   assign CLR   = ~dac_clr;
+   assign LDAC  = ~dac_ldac;
+   
+   ////////////////// Data Flow Control
+   
+   flow_ctrl data_flow_ctrl
+   (
+      .mclk           (mclk           ),
+      .sdram_wren     (sdram_wren     ),
+      .sdram_waddr    (sdram_waddr    ),
+      .sdram_wdata    (sdram_wdata    ),
+      .sdram_wstatus  (sdram_wstatus  ),
+      .sdram_rd       (sdram_rd       ),
+      .sdram_raddr    (sdram_raddr    ),
+      .sdram_rdata    (sdram_rdata    ),
+      .sdram_rdv      (sdram_rdv      ),
+      .sdram_rstatus  (sdram_rstatus  ),
+      .dac_start      (dac_start      ),
+      .dac_dv         (dac_dv         ),
+      .dac_data       (dac_data       ),
+      .dac_waitrequest(dac_waitrequest)
+   );   
          
 endmodule
