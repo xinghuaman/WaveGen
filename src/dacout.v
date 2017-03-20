@@ -42,6 +42,7 @@ module dacout
    tx_data,
    tx_waitrequest,
    mclk,
+   en,
    start,
    sclk,
    sdin,
@@ -62,6 +63,7 @@ module dacout
    output                      tx_waitrequest; // tx wait request
    
    input                       mclk;           // main clock
+   input                       en;             // AD5791 enable
    input                       start;          // start input
    output                      sclk;           // AD5791 serial clock output
    input                       sdin;           // AD5791 serial data input
@@ -167,9 +169,8 @@ module dacout
    reg  sync;
    reg  sdo ;
    reg  ldac;
-   
-   assign reset = `LOW;
-   assign clr   = `LOW;
+   reg  clr  =`LOW;
+   reg  reset=`LOW;
    
    always@* begin
       case(fsm_st)
@@ -177,26 +178,36 @@ module dacout
             sync <= `LOW;
             sdo  <= `LOW;
             ldac <= `LOW;
+            reset<= ~en;
+            clr  <= `LOW;
          end
          `ST_RW: begin
             sync <= `HIGH;
             sdo  <= `DAC_RW_WRITE;
             ldac <= `LOW;
+            reset<= `LOW;
+            clr  <= `LOW;
          end
          `ST_CMD: begin            
             sync <= `HIGH;
             sdo  <= fsm_sf_data[`DAC_DATA_NBIT-1];
             ldac <= `LOW;
+            reset<= `LOW;
+            clr  <= `LOW;
          end
          `ST_DATA: begin
             sync <= (fsm_cnt>1);
             sdo  <= fsm_sf_data[`DAC_DATA_NBIT-1];
             ldac <= (fsm_cnt==0);
+            reset<= `LOW;
+            clr  <= `LOW;
          end
          default: begin
             sync <= `LOW;
             sdo  <= `LOW;
             ldac <= `LOW;
+            reset<= `LOW;
+            clr  <= `LOW;
          end
       endcase
    end           
