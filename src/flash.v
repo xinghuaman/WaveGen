@@ -18,14 +18,14 @@
 
 /////////////////////////// DEFINE /////////////////////////////
 
-`define ST_IDLE    2'b00
-`define ST_INS     2'b01
-`define ST_ADDR    2'b11
-`define ST_DATA    2'b10
+`define ST_IDLE      2'b00
+`define ST_INS       2'b01
+`define ST_ADDR      2'b11
+`define ST_DATA      2'b10
 
-`define INS_NBIT   8
-`define ADDR_NBIT  24
-`define DATA_NBIT  8
+`define INS_NBIT     8
+`define ADDR_NBIT    24
+`define DATA_NBIT    8
 
 `define INS_READDATA `INS_NBIT'h03
 `define INS_JEDECID  `INS_NBIT'h9F
@@ -79,7 +79,8 @@ module flash_ctrl
       
    ////////////////// FSM
    
-   wire  fsm_en = sclk_cnt==`FLASH_SCLK_DIV-1;
+   wire  fsm_do_en = (sclk_cnt==`FLASH_SCLK_DIV-1);
+   wire  fsm_di_en = ((fsm_st==`ST_DATA) && (sclk_cnt==`FLASH_SCLK_DIV/2-1));
    
    reg  [1:0]  fsm_st;
    reg         fsm_start;
@@ -93,7 +94,8 @@ module flash_ctrl
    always@(posedge mclk) begin
       fsm_start <= (rd&(fsm_st==`ST_IDLE)) ? `HIGH : (fsm_st!=`ST_IDLE ? `LOW : fsm_start);
       rstatus   <= (fsm_st==`ST_IDLE);
-      if(fsm_en) begin
+      fsm_data  <= fsm_di_en ? {fsm_data[46:0],sdi} : fsm_data;
+      if(fsm_do_en) begin
          case(fsm_st)
             `ST_IDLE: begin
                fsm_cnt <= 0;
@@ -109,9 +111,9 @@ module flash_ctrl
                fsm_cnt  <= fsm_cnt - 1'b1;
                fsm_data <= fsm_data<<1;
                if(fsm_cnt==0) begin
-                  fsm_cnt  <= 6'd`ADDR_NBIT-1'b1;
+                  fsm_cnt  <= (`ADDR_NBIT!=0) ? (6'd`ADDR_NBIT-1'b1) : (6'd`DATA_NBIT-1'b1);
                   fsm_data <= {raddr,{48-`ADDR_NBIT{1'b0}}};
-                  fsm_st   <= `ST_ADDR;
+                  fsm_st   <= (`ADDR_NBIT!=0) ? `ST_ADDR : ((`DATA_NBIT!=0) ? `ST_DATA : `ST_IDLE);
                end
             end
             `ST_ADDR: begin
@@ -120,12 +122,11 @@ module flash_ctrl
                if(fsm_cnt==0) begin
                   fsm_cnt  <= 6'd`DATA_NBIT-1'b1;
                   fsm_data <= 0;
-                  fsm_st   <= `ST_DATA;
+                  fsm_st   <= `DATA_NBIT!=0 ? `ST_DATA : `ST_IDLE;
                end
             end
             `ST_DATA: begin
                fsm_cnt  <= fsm_cnt - 1'b1;
-               fsm_data <= {fsm_data[46:0],sdi};
                if(fsm_cnt==0) begin
                   fsm_cnt  <= 0;
                   fsm_data <= 0;

@@ -90,22 +90,19 @@ module flow_ctrl
    reg  [`SDRAM_ADDR_NBIT-1:0]  sdram_waddr;
    reg  [`SDRAM_DATA_NBIT-1:0]  sdram_wdata;
    
-   reg                          p_flash_rd;
+   reg                          p_flash_dv;
    reg [`FLASH_ADDR_NBIT-1:0]   flash_addr;
    reg [1:0]                    flash_cnt;
 
-   always@(posedge mclk) begin
-      p_flash_rd <= flash_rd;
-      if(flash_rd&~p_flash_rd) begin
-         flash_addr <= flash_addr + 1'b1;
-      end
-      
+   always@(posedge mclk) begin      
       sdram_wren <= `LOW;
-      if(flash_rd&~p_flash_rd&flash_dv) begin
+      p_flash_dv <= flash_dv;
+      if(flash_dv&~p_flash_dv) begin
+         flash_addr <= flash_addr + 1'b1;
          flash_cnt <= flash_cnt + 1'b1;
          sdram_wdata <= flash_cnt==0 ? {{`SDRAM_DATA_NBIT-`FLASH_DATA_NBIT{1'b0}},flash_data} :
                                        {sdram_wdata[`SDRAM_DATA_NBIT-`FLASH_DATA_NBIT-1:0],flash_data};
-         if(flash_cnt==2'b10) begin
+         if(flash_cnt==`SDRAM_ADDR_NBIT/`FLASH_DATA_NBIT-1) begin
             flash_cnt <= 0;
             sdram_wren <= `HIGH;
          end
