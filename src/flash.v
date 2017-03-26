@@ -131,8 +131,8 @@ module flash_ctrl
                   fsm_cnt  <= 0;
                   fsm_data <= 0;
                   fsm_st   <= `ST_IDLE;
-                  rdv      <= `HIGH;                                // output data valid
-                  rdata    <= {fsm_data[`FLASH_DATA_NBIT-2:0],sdi}; // output data
+                  rdv      <= `HIGH;                          // output data valid
+                  rdata    <= fsm_data[`FLASH_DATA_NBIT-1:0]; // output data
                end
             end
             default:  begin

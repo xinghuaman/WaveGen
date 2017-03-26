@@ -33,10 +33,11 @@
 
 ////////////////// FLASH
 
-`define FLASH_SCLK_DIV_NBIT 3
-`define FLASH_SCLK_DIV      6   // max 50MHz
+`define FLASH_SCLK_DIV_NBIT 7
+`define FLASH_SCLK_DIV      4   // max 50MHz
 
-`define FLASH_ADDR_NBIT     15
+`define FLASH_ADDR_NBIT     24
 `define FLASH_DATA_NBIT     8
 
-`define FLASH_DATA_NUM     (99*1000000/`DAC_SYNC_DIV/55)  // N = fs/fc = (132MHz/30/8)/55Hz = 10000 
+//`define FLASH_DATA_NUM     (99*1000000/`DAC_SYNC_DIV/55*11)  // N = fs/fc = (96MHz/30/8)/55Hz = 7272 
+`define FLASH_DATA_NUM      80000

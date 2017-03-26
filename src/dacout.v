@@ -33,6 +33,8 @@
 `define  DAC_CMD_CTRL   `DAC_CMD_NBIT'b010
 `define  DAC_CMD_CLR    `DAC_CMD_NBIT'b011
 
+`define  CTRL_DEF_DATA  `DAC_DATA_NBIT'b0000000000_0000_0_1_0_0_1_0
+
 /////////////////////////// MODULE //////////////////////////////
 
 module dacout
@@ -115,6 +117,8 @@ module dacout
    reg  [`DAC_DATA_NBIT-1:0] fsm_sf_data;
    wire fsm_en = (sclk_div_cnt==`DAC_SCLK_DIV-1);
    
+   reg                       fsm_init=`HIGH;
+   
    always@(posedge mclk) begin
       fsm_start = ~txbuf_empty&start ? `HIGH : (fsm_st!=`ST_IDLE ? `LOW : fsm_start);
       txbuf_rd <= `LOW;
@@ -123,7 +127,7 @@ module dacout
             `ST_IDLE: begin // IDLE state, wait for start
                fsm_cnt <= 0;
                fsm_sf_data <= 0;
-               if(fsm_start) begin
+               if(en&(fsm_start|fsm_init)) begin
                   txbuf_rd    <= `HIGH;
                   fsm_st      <= `ST_RW;
                end
@@ -132,7 +136,7 @@ module dacout
                fsm_cnt <= fsm_cnt - 1'b1;
                if(fsm_cnt==0) begin
                   fsm_cnt     <= 5'd`DAC_CMD_NBIT-1'b1;   
-                  fsm_sf_data <= {`DAC_CMD_RG,{`DAC_DATA_NBIT-`DAC_CMD_NBIT{1'b0}}};
+                  fsm_sf_data <= {fsm_init ? `DAC_CMD_CTRL : `DAC_CMD_RG,{`DAC_DATA_NBIT-`DAC_CMD_NBIT{1'b0}}};
                   fsm_st      <= `ST_CMD;
                end
             end
@@ -149,7 +153,7 @@ module dacout
                fsm_sf_data <= fsm_sf_data<<1;
                if(fsm_cnt==0) begin
                   fsm_cnt     <= 5'd`DAC_DATA_NBIT+1'b1;
-                  fsm_sf_data <= txbuf_data;
+                  fsm_sf_data <= fsm_init ? `CTRL_DEF_DATA : txbuf_data;
                   fsm_st      <= `ST_DATA;
                end
             end
@@ -157,7 +161,8 @@ module dacout
                fsm_cnt     <= fsm_cnt - 1'b1;
                fsm_sf_data <= fsm_sf_data<<1;
                if(fsm_cnt==0) begin
-                  fsm_st  <= `ST_IDLE;
+                  fsm_st   <= `ST_IDLE;
+                  fsm_init <= `LOW;
                end
             end
             default: 
@@ -178,7 +183,7 @@ module dacout
             sync <= `LOW;
             sdo  <= `LOW;
             ldac <= `LOW;
-            reset<= ~en;
+            reset<= `LOW;
             clr  <= `LOW;
          end
          `ST_RW: begin

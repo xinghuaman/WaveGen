@@ -2,3 +2,4 @@
 /prj/incremental_db/compiled_partitions
 /prj/output_files
 /*.pui
+/prj/incremental_db
