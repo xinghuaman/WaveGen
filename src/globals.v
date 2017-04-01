@@ -39,5 +39,23 @@
 `define FLASH_ADDR_NBIT     24
 `define FLASH_DATA_NBIT     8
 
-//`define FLASH_DATA_NUM     (99*1000000/`DAC_SYNC_DIV/55*11)  // N = fs/fc = (96MHz/30/8)/55Hz = 7272 
 `define FLASH_DATA_NUM      80000
+
+////////////////// Gain
+
+`define GAIN_NBIT           16
+`define GAIN_1              `GAIN_NBIT'h7FFF
+`define GAIN_500mv          `GAIN_NBIT'h5B6E
+`define GAIN_160mv          `GAIN_NBIT'h6BCA
+`define GAIN_80mv           `GAIN_NBIT'h2EB3
+`define GAIN_40mv           `GAIN_NBIT'h2E8B
+`define GAIN_30mv           `GAIN_NBIT'h23B8
+`define GAIN_20mv           `GAIN_NBIT'h1111
+
+`define OFFSET_0            `DAC_DATA_NBIT'd0
+`define OFFSET_1            `DAC_DATA_NBIT'd0
+`define OFFSET_2            `DAC_DATA_NBIT'd0
+`define OFFSET_3            `DAC_DATA_NBIT'd0
+`define OFFSET_4            `DAC_DATA_NBIT'd0
+`define OFFSET_5            `DAC_DATA_NBIT'd0
+`define OFFSET_6            `DAC_DATA_NBIT'd0

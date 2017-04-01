@@ -33,7 +33,7 @@
 `define  DAC_CMD_CTRL   `DAC_CMD_NBIT'b010
 `define  DAC_CMD_CLR    `DAC_CMD_NBIT'b011
 
-`define  CTRL_DEF_DATA  `DAC_DATA_NBIT'b0000000000_0000_0_1_0_0_1_0
+`define  CTRL_DEF_DATA  `DAC_DATA_NBIT'b0000000000_0000_0_0_0_0_1_0
 
 /////////////////////////// MODULE //////////////////////////////
 
@@ -117,17 +117,20 @@ module dacout
    reg  [`DAC_DATA_NBIT-1:0] fsm_sf_data;
    wire fsm_en = (sclk_div_cnt==`DAC_SCLK_DIV-1);
    
-   reg                       fsm_init=`HIGH;
+   reg                       fsm_init;
+   reg  [2:0]                p_dac_en;
    
    always@(posedge mclk) begin
-      fsm_start = ~txbuf_empty&start ? `HIGH : (fsm_st!=`ST_IDLE ? `LOW : fsm_start);
-      txbuf_rd <= `LOW;
+      fsm_start <= (~txbuf_empty&start&p_dac_en[2]&~fsm_init) ? `HIGH : (fsm_st!=`ST_IDLE ? `LOW : fsm_start);
+      fsm_init  <= p_dac_en[2:1]==2'b01 ? `HIGH : fsm_init;
+      txbuf_rd  <= `LOW;
       if(fsm_en) begin
+         p_dac_en <= {p_dac_en[1:0],en};
          case(fsm_st)
             `ST_IDLE: begin // IDLE state, wait for start
                fsm_cnt <= 0;
                fsm_sf_data <= 0;
-               if(en&(fsm_start|fsm_init)) begin
+               if(fsm_start|fsm_init) begin
                   txbuf_rd    <= `HIGH;
                   fsm_st      <= `ST_RW;
                end

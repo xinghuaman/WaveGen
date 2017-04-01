@@ -22,10 +22,14 @@ module top
    // Clock Source
    CLK1,
    // Wave Control
+   wave_en,
    wave_sel,
    wave_gain,
    wave_start,
    wave_clk,
+   ina,
+   inb,
+   inc,
    // AD5791
    SCLK,
    SDIN,
@@ -56,11 +60,15 @@ module top
 
    ////////////////// PORT ////////////////////
    input          CLK1; // 48MHz
-
+   
+   input          wave_en;
    input  [2:0]   wave_sel;
    input  [2:0]   wave_gain;
    input          wave_start;
    input          wave_clk;
+   output [4:1]   ina;
+   output [2:1]   inb;
+   output [3:1]   inc;
 
    output         SCLK;
    input          SDIN;
@@ -102,19 +110,6 @@ module top
    
    ////////////////// Data Source
    
-//   wire [`FLASH_ADDR_NBIT-1:0]  dsrc_addr;
-//   wire [`FLASH_DATA_NBIT-1:0]  dsrc_data;
-//
-//   buffered_ram #(`FLASH_ADDR_NBIT,`FLASH_DATA_NBIT,"../src/sin.mif")
-//   data_source(
-//      .inclk       (mclk),
-//      .in_wren     (`LOW),
-//      .in_wraddress(0),
-//      .in_wrdata   (0),
-//      .in_rdaddress(dsrc_addr),
-//      .out_rddata  (dsrc_data)
-//   );
-
    wire                         flash_rd;
    wire [`FLASH_ADDR_NBIT-1:0]  flash_raddr;
    wire                         flash_rstatus;
@@ -148,33 +143,77 @@ module top
    assign FLASH_WP   =~flash_wp  ;
    assign FLASH_HOLD =~flash_hold;
    
-   reg  [16:0]                    int_gain;
-   reg  [`FLASH_DATA_NBIT-1+16:0] m_dsrc_data;
-   reg                            flash_dv;
+   reg  signed [`GAIN_NBIT-1:0]           int_gain;
+   reg  [`DAC_DATA_NBIT-1:0]              int_offset;
    
+   // gain control
    always@(posedge mclk) begin
-      case({wave_sel,wave_gain})
-         // waveform 0, gain 0
-         6'b001_001: int_gain <= 16'h8000;
-         // waveform 1, gain 0
-         6'b010_001: int_gain <= 16'h6666;
-         // waveform 1, gain 1
-         6'b010_010: int_gain <= 16'h3333;
-         // waveform 2, gain 0
-         6'b100_001: int_gain <= 16'h6666;
-         // waveform 2, gain 1
-         6'b100_010: int_gain <= 16'h6000;
-         // waveform 2, gain 2
-         6'b100_100: int_gain <= 16'h3333;
-         // others
-         default:    int_gain <= 16'h8000;
-      endcase
-      m_dsrc_data <= flash_rdata * int_gain;
-      flash_dv    <= flash_rdv;
+      case(wave_sel)
+         3'b000: begin
+				int_gain   <= `GAIN_1;   //500mv
+            int_offset <= `OFFSET_0;
+			end
+			3'b001: begin
+				int_gain   <= `GAIN_500mv;   //500mv
+            int_offset <= `OFFSET_1;
+			end
+         3'b010: begin
+				int_gain   <= `GAIN_160mv; //160mv
+            int_offset <= `OFFSET_2;
+			end
+         3'b011: begin
+				int_gain   <= `GAIN_80mv; //80mv
+            int_offset <= `OFFSET_3;
+			end
+         3'b100: begin
+				int_gain   <= `GAIN_40mv; //40mv
+            int_offset <= `OFFSET_4;
+			end
+			3'b101: begin
+				int_gain   <= `GAIN_30mv; //30mv
+            int_offset <= `OFFSET_5;
+			end
+			3'b110: begin
+				int_gain   <= `GAIN_20mv; //20mv
+            int_offset <= `OFFSET_6;
+			end
+         default: begin
+				int_gain   <= `GAIN_1;
+            int_offset <= `OFFSET_0;
+			end
+     endcase
    end
-
-   wire [`FLASH_DATA_NBIT-1:0]  flash_data = m_dsrc_data[`FLASH_DATA_NBIT-1+15:15];
-
+   
+   // filter control
+   reg [4:1]   ina;
+   reg [2:1]   inb;
+   reg [3:1]   inc;
+   always@(posedge mclk) begin
+      case(wave_gain[1:0])
+         2'b00: begin
+            ina <= 4'b0011;
+            inb <= 2'b00;
+         end
+         2'b01: begin
+            ina <= 4'b1100;
+            inb <= 2'b00;
+         end
+         2'b10: begin
+            ina <= 4'b0000;
+            inb <= 2'b11;
+         end
+         default: begin
+            ina <= 4'b0000;
+            inb <= 2'b00;  
+         end
+      endcase
+      case(wave_gain[2])
+         1'b0:    inc <= 3'b001;
+         1'b1:    inc <= 3'b000;
+         default: inc <= 3'b001;
+      endcase
+   end
+      
    ////////////////// SDRAM Controller
    wire                        sdram_wren ;
    wire [`SDRAM_ADDR_NBIT-1:0] sdram_waddr;
@@ -216,6 +255,22 @@ module top
       .port_ras_n(SDRAM_NRAS    ),
       .port_we_n (SDRAM_NWE     )
    );
+
+   ////////////////// Process the data between SDRAM and AD5791
+   reg                                    	  int_dv;
+   reg  signed [`DAC_DATA_NBIT-1:0]     		  int_data;
+   wire signed [`DAC_DATA_NBIT+`GAIN_NBIT-1:0] m_dsrc_data = int_data * int_gain;
+
+   reg                                    proc_dv  ;
+   reg  [`SDRAM_DATA_NBIT-1:0]            proc_data;
+  
+   always@(posedge mclk) begin
+      int_dv    <= sdram_rdv;
+      int_data  <= sdram_rdata[`DAC_DATA_NBIT-1:0] + int_offset;
+
+      proc_dv   <= int_dv;
+      proc_data <= {{`SDRAM_DATA_NBIT-`DAC_DATA_NBIT{m_dsrc_data[`DAC_DATA_NBIT+`GAIN_NBIT-2]}},m_dsrc_data[`DAC_DATA_NBIT-1+`GAIN_NBIT-1:`GAIN_NBIT-1]};
+   end
    
    ////////////////// AD5791 Controller
    
@@ -240,7 +295,7 @@ module top
       .tx_waitrequest(dac_waitrequest),
       .mclk          (mclk           ),
       .start         (dac_start      ),
-      .en            (dac_en         ),
+      .en            (dac_en&wave_en ),
       .sclk          (dac_sclk       ),
       .sdin          (dac_sdin       ),
       .sdo           (dac_sdo        ),
@@ -265,16 +320,16 @@ module top
       .flash_rd       (flash_rd       ),
       .flash_addr     (flash_raddr    ),
       .flash_rstatus  (flash_rstatus  ),
-      .flash_data     (flash_data     ),
-      .flash_dv       (flash_dv       ),
+      .flash_data     (flash_rdata    ),
+      .flash_dv       (flash_rdv      ),
       .sdram_wren     (sdram_wren     ),
       .sdram_waddr    (sdram_waddr    ),
       .sdram_wdata    (sdram_wdata    ),
       .sdram_wstatus  (sdram_wstatus  ),
       .sdram_rd       (sdram_rd       ),
       .sdram_raddr    (sdram_raddr    ),
-      .sdram_rdata    (sdram_rdata    ),
-      .sdram_rdv      (sdram_rdv      ),
+      .sdram_rdata    (proc_data      ),
+      .sdram_rdv      (proc_dv        ),
       .sdram_rstatus  (sdram_rstatus  ),
       .dac_start      (dac_start      ),
       .dac_en         (dac_en         ),

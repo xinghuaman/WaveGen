@@ -3,3 +3,4 @@
 /prj/output_files
 /*.pui
 /prj/incremental_db
+/prj/*.qws

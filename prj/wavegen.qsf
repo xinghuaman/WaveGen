@@ -149,15 +149,15 @@ set_location_assignment PIN_M15 -to USB_FLAGB
 set_location_assignment PIN_E16 -to USB_FLAGC
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_global_assignment -name ENABLE_SIGNALTAP ON
+set_global_assignment -name ENABLE_SIGNALTAP OFF
 set_global_assignment -name USE_SIGNALTAP_FILE ../src/stp1.stp
-set_location_assignment PIN_D8 -to SYNC
-set_location_assignment PIN_C9 -to SCLK
-set_location_assignment PIN_B9 -to SDIN
-set_location_assignment PIN_A9 -to LDAC
+set_location_assignment PIN_D11 -to SYNC
+set_location_assignment PIN_E11 -to SCLK
+set_location_assignment PIN_D8 -to SDIN
+set_location_assignment PIN_A7 -to LDAC
 set_location_assignment PIN_A8 -to CLR
-set_location_assignment PIN_A7 -to RESET
-set_location_assignment PIN_C8 -to SDO
+set_location_assignment PIN_A9 -to RESET
+set_location_assignment PIN_E9 -to SDO
 set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVCMOS"
 set_global_assignment -name ENABLE_OCT_DONE OFF
 set_global_assignment -name ENABLE_CONFIGURATION_PINS OFF
@@ -174,17 +174,16 @@ set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to LDAC
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to CLR
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to RESET
 set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to SDO
-set_location_assignment PIN_F11 -to wave_sel[0]
-set_location_assignment PIN_F9 -to wave_sel[1]
-set_location_assignment PIN_E8 -to wave_sel[2]
-set_location_assignment PIN_E6 -to wave_start
-set_location_assignment PIN_B7 -to wave_gain[0]
-set_location_assignment PIN_F10 -to wave_gain[1]
-set_location_assignment PIN_F8 -to wave_gain[2]
+set_location_assignment PIN_C9 -to wave_sel[0]
+set_location_assignment PIN_C8 -to wave_sel[1]
+set_location_assignment PIN_B9 -to wave_sel[2]
+set_location_assignment PIN_D9 -to wave_start
+set_location_assignment PIN_B8 -to wave_gain[0]
+set_location_assignment PIN_B7 -to wave_gain[1]
+set_location_assignment PIN_F10 -to wave_gain[2]
 set_location_assignment PIN_E7 -to wave_clk
 set_global_assignment -name CYCLONEIII_CONFIGURATION_DEVICE EPCS16
 set_global_assignment -name VERILOG_FILE ../src/flash.v
-set_global_assignment -name VERILOG_FILE ../src/buffered_ram.v
 set_global_assignment -name VERILOG_FILE ../src/asyn_fifo.v
 set_global_assignment -name VERILOG_FILE ../src/flow_ctrl.v
 set_global_assignment -name VERILOG_FILE ../src/dacout.v
@@ -198,245 +197,25 @@ set_global_assignment -name VERILOG_FILE ../src/sdram_ctrl.v
 set_global_assignment -name VERILOG_FILE ../src/globals.v
 set_global_assignment -name VERILOG_FILE ../src/avalon2memwr.v
 set_global_assignment -name SIGNALTAP_FILE ../src/stp1.stp
-set_global_assignment -name MIF_FILE ../src/sin.mif
-set_location_assignment PIN_C14 -to FLASH_CS
-set_location_assignment PIN_A15 -to FLASH_SDI
-set_location_assignment PIN_B14 -to FLASH_SDO
-set_location_assignment PIN_A13 -to FLASH_SCLK
-set_location_assignment PIN_B13 -to FLASH_HOLD
-set_location_assignment PIN_A14 -to FLASH_WP
-set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id datainit
-set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to "clk_gen:main_clk_gen|c0" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to "flow_ctrl:data_flow_ctrl|f2s_done" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to "flow_ctrl:data_flow_ctrl|f2s_start" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to "flow_ctrl:data_flow_ctrl|flash_addr[0]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[3] -to "flow_ctrl:data_flow_ctrl|flash_addr[10]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[4] -to "flow_ctrl:data_flow_ctrl|flash_addr[11]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[5] -to "flow_ctrl:data_flow_ctrl|flash_addr[12]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[6] -to "flow_ctrl:data_flow_ctrl|flash_addr[13]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[7] -to "flow_ctrl:data_flow_ctrl|flash_addr[14]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[8] -to "flow_ctrl:data_flow_ctrl|flash_addr[1]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[9] -to "flow_ctrl:data_flow_ctrl|flash_addr[2]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[10] -to "flow_ctrl:data_flow_ctrl|flash_addr[3]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[11] -to "flow_ctrl:data_flow_ctrl|flash_addr[4]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[12] -to "flow_ctrl:data_flow_ctrl|flash_addr[5]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[13] -to "flow_ctrl:data_flow_ctrl|flash_addr[6]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[14] -to "flow_ctrl:data_flow_ctrl|flash_addr[7]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[15] -to "flow_ctrl:data_flow_ctrl|flash_addr[8]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[16] -to "flow_ctrl:data_flow_ctrl|flash_addr[9]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[17] -to "flow_ctrl:data_flow_ctrl|flash_cnt[0]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[18] -to "flow_ctrl:data_flow_ctrl|flash_cnt[1]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[19] -to "flow_ctrl:data_flow_ctrl|flash_data[0]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[20] -to "flow_ctrl:data_flow_ctrl|flash_data[1]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[21] -to "flow_ctrl:data_flow_ctrl|flash_data[2]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[22] -to "flow_ctrl:data_flow_ctrl|flash_data[3]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[23] -to "flow_ctrl:data_flow_ctrl|flash_data[4]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[24] -to "flow_ctrl:data_flow_ctrl|flash_data[5]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[25] -to "flow_ctrl:data_flow_ctrl|flash_data[6]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[26] -to "flow_ctrl:data_flow_ctrl|flash_data[7]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[27] -to "flow_ctrl:data_flow_ctrl|flash_dv" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[28] -to "flow_ctrl:data_flow_ctrl|flash_rd" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[29] -to "flow_ctrl:data_flow_ctrl|flash_rstatus" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[30] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[0]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[31] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[10]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[32] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[11]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[33] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[12]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[34] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[13]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[35] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[14]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[36] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[15]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[37] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[16]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[38] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[17]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[39] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[18]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[40] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[19]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[41] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[1]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[42] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[20]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[43] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[21]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[44] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[22]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[45] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[23]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[46] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[2]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[47] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[3]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[48] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[4]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[49] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[5]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[50] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[6]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[51] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[7]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[52] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[8]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[53] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[9]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[54] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[0]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[55] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[10]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[56] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[11]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[57] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[12]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[58] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[13]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[59] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[14]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[60] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[15]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[61] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[16]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[62] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[17]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[63] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[18]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[64] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[19]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[65] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[1]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[66] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[20]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[67] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[21]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[68] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[22]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[69] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[23]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[70] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[24]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[71] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[25]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[72] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[26]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[73] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[27]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[74] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[28]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[75] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[29]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[76] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[2]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[77] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[30]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[78] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[31]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[79] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[3]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[80] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[4]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[81] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[5]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[82] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[6]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[83] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[7]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[84] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[8]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[85] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[9]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[86] -to "flow_ctrl:data_flow_ctrl|sdram_wren" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[87] -to "flow_ctrl:data_flow_ctrl|sdram_wstatus" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to "flow_ctrl:data_flow_ctrl|f2s_done" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to "flow_ctrl:data_flow_ctrl|f2s_start" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to "flow_ctrl:data_flow_ctrl|flash_addr[0]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to "flow_ctrl:data_flow_ctrl|flash_addr[10]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to "flow_ctrl:data_flow_ctrl|flash_addr[11]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to "flow_ctrl:data_flow_ctrl|flash_addr[12]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to "flow_ctrl:data_flow_ctrl|flash_addr[13]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[7] -to "flow_ctrl:data_flow_ctrl|flash_addr[14]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[8] -to "flow_ctrl:data_flow_ctrl|flash_addr[1]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[9] -to "flow_ctrl:data_flow_ctrl|flash_addr[2]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[10] -to "flow_ctrl:data_flow_ctrl|flash_addr[3]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[11] -to "flow_ctrl:data_flow_ctrl|flash_addr[4]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[12] -to "flow_ctrl:data_flow_ctrl|flash_addr[5]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[13] -to "flow_ctrl:data_flow_ctrl|flash_addr[6]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[14] -to "flow_ctrl:data_flow_ctrl|flash_addr[7]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -to "flow_ctrl:data_flow_ctrl|flash_addr[8]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[16] -to "flow_ctrl:data_flow_ctrl|flash_addr[9]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[17] -to "flow_ctrl:data_flow_ctrl|flash_cnt[0]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[18] -to "flow_ctrl:data_flow_ctrl|flash_cnt[1]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[19] -to "flow_ctrl:data_flow_ctrl|flash_data[0]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[20] -to "flow_ctrl:data_flow_ctrl|flash_data[1]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[21] -to "flow_ctrl:data_flow_ctrl|flash_data[2]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[22] -to "flow_ctrl:data_flow_ctrl|flash_data[3]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[23] -to "flow_ctrl:data_flow_ctrl|flash_data[4]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[24] -to "flow_ctrl:data_flow_ctrl|flash_data[5]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[25] -to "flow_ctrl:data_flow_ctrl|flash_data[6]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[26] -to "flow_ctrl:data_flow_ctrl|flash_data[7]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[27] -to "flow_ctrl:data_flow_ctrl|flash_dv" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[28] -to "flow_ctrl:data_flow_ctrl|flash_rd" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[29] -to "flow_ctrl:data_flow_ctrl|flash_rstatus" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[30] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[0]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[31] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[10]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[32] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[11]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[33] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[12]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[34] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[13]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[35] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[14]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[36] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[15]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[37] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[16]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[38] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[17]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[39] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[18]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[40] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[19]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[41] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[1]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[42] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[20]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[43] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[21]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[44] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[22]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[45] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[23]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[46] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[2]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[47] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[3]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[48] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[4]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[49] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[5]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[50] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[6]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[51] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[7]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[52] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[8]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[53] -to "flow_ctrl:data_flow_ctrl|sdram_waddr[9]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[54] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[0]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[55] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[10]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[56] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[11]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[57] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[12]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[58] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[13]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[59] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[14]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[60] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[15]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[61] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[16]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[62] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[17]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[63] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[18]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[64] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[19]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[65] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[1]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[66] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[20]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[67] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[21]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[68] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[22]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[69] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[23]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[70] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[24]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[71] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[25]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[72] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[26]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[73] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[27]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[74] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[28]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[75] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[29]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[76] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[2]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[77] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[30]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[78] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[31]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[79] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[3]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[80] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[4]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[81] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[5]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[82] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[6]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[83] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[7]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[84] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[8]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[85] -to "flow_ctrl:data_flow_ctrl|sdram_wdata[9]" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[86] -to "flow_ctrl:data_flow_ctrl|sdram_wren" -section_id datainit
-set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[87] -to "flow_ctrl:data_flow_ctrl|sdram_wstatus" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_BLOCK_TYPE=AUTO" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=88" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=88" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=88" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334531" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=1" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=288" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=1024" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INCREMENTAL_ROUTING=1" -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[0] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[1] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[2] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[3] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[4] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[5] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[6] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[7] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[8] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[9] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[10] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[11] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[12] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[13] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[14] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[15] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[19] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[20] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[21] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[24] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[25] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[26] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[28] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[29] -to datainit|gnd -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=1024" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[18] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[22] -to datainit|vcc -section_id datainit
-set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000101000000000000100010001111111" -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[16] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[17] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[23] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[27] -to datainit|gnd -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[30] -to datainit|vcc -section_id datainit
-set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[31] -to datainit|gnd -section_id datainit
-set_global_assignment -name SLD_FILE db/stp1_auto_stripped.stp
+set_location_assignment PIN_B1 -to FLASH_CS
+set_location_assignment PIN_D4 -to FLASH_SDI
+set_location_assignment PIN_F1 -to FLASH_SDO
+set_location_assignment PIN_F2 -to FLASH_SCLK
+set_location_assignment PIN_F5 -to FLASH_HOLD
+set_location_assignment PIN_D1 -to FLASH_WP
+set_location_assignment PIN_K10 -to ina[1]
+set_location_assignment PIN_M10 -to ina[2]
+set_location_assignment PIN_N11 -to ina[4]
+set_location_assignment PIN_T13 -to ina[3]
+set_location_assignment PIN_R14 -to inc[1]
+set_location_assignment PIN_L12 -to inc[2]
+set_location_assignment PIN_J11 -to inc[3]
+set_location_assignment PIN_D14 -to inb[1]
+set_location_assignment PIN_M11 -to inb[2]
+set_location_assignment PIN_D3 -to GAIN2
+set_location_assignment PIN_B3 -to GAIN1
+set_location_assignment PIN_D5 -to GAIN0
+set_location_assignment PIN_A4 -to SEL0
+set_location_assignment PIN_A3 -to SEL1
+set_location_assignment PIN_D6 -to SEL2
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
