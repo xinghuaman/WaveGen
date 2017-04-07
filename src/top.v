@@ -22,7 +22,6 @@ module top
    // Clock Source
    CLK1,
    // Wave Control
-   wave_en,
    wave_sel,
    wave_gain,
    wave_start,
@@ -61,7 +60,6 @@ module top
    ////////////////// PORT ////////////////////
    input          CLK1; // 48MHz
    
-   input          wave_en;
    input  [2:0]   wave_sel;
    input  [2:0]   wave_gain;
    input          wave_start;
@@ -289,20 +287,20 @@ module top
    
    dacout ad5791_ctrl
    (
-      .tx_clk        (mclk           ),
-      .tx_dv         (dac_dv         ),
-      .tx_data       (dac_data       ),
-      .tx_waitrequest(dac_waitrequest),
-      .mclk          (mclk           ),
-      .start         (dac_start      ),
-      .en            (dac_en&wave_en ),
-      .sclk          (dac_sclk       ),
-      .sdin          (dac_sdin       ),
-      .sdo           (dac_sdo        ),
-      .sync          (dac_sync       ),
-      .ldac          (dac_ldac       ),
-      .reset         (dac_reset      ),
-      .clr           (dac_clr        )
+      .tx_clk        (mclk             ),
+      .tx_dv         (dac_dv           ),
+      .tx_data       (dac_data         ),
+      .tx_waitrequest(dac_waitrequest  ),
+      .mclk          (mclk             ),
+      .start         (dac_start        ),
+      .en            (dac_en&wave_start),
+      .sclk          (dac_sclk         ),
+      .sdin          (dac_sdin         ),
+      .sdo           (dac_sdo          ),
+      .sync          (dac_sync         ),
+      .ldac          (dac_ldac         ),
+      .reset         (dac_reset        ),
+      .clr           (dac_clr          )
    );
 
    assign SCLK  =  dac_sclk;

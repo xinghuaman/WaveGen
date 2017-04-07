@@ -149,7 +149,7 @@ set_location_assignment PIN_M15 -to USB_FLAGB
 set_location_assignment PIN_E16 -to USB_FLAGC
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name ENABLE_SIGNALTAP ON
 set_global_assignment -name USE_SIGNALTAP_FILE ../src/stp1.stp
 set_location_assignment PIN_D11 -to SYNC
 set_location_assignment PIN_E11 -to SCLK
@@ -196,7 +196,6 @@ set_global_assignment -name VERILOG_FILE ../src/sync_fifo.v
 set_global_assignment -name VERILOG_FILE ../src/sdram_ctrl.v
 set_global_assignment -name VERILOG_FILE ../src/globals.v
 set_global_assignment -name VERILOG_FILE ../src/avalon2memwr.v
-set_global_assignment -name SIGNALTAP_FILE ../src/stp1.stp
 set_location_assignment PIN_B1 -to FLASH_CS
 set_location_assignment PIN_D4 -to FLASH_SDI
 set_location_assignment PIN_F1 -to FLASH_SDO
@@ -218,4 +217,254 @@ set_location_assignment PIN_D5 -to GAIN0
 set_location_assignment PIN_A4 -to SEL0
 set_location_assignment PIN_A3 -to SEL1
 set_location_assignment PIN_D6 -to SEL2
+set_global_assignment -name SLD_NODE_CREATOR_ID 110 -section_id dac
+set_global_assignment -name SLD_NODE_ENTITY_NAME sld_signaltap -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_clk -to "clk_gen:main_clk_gen|c0" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[0] -to CLR -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[1] -to LDAC -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[2] -to RESET -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[3] -to SCLK -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[4] -to SDIN -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[5] -to SDO -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[6] -to SYNC -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[7] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rd" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[8] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[0]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[9] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[10]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[10] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[11]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[11] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[12]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[12] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[13]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[13] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[14]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[14] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[15]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[15] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[16]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[16] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[17]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[17] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[18]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[18] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[19]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[19] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[1]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[20] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[2]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[21] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[3]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[22] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[4]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[23] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[5]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[24] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[6]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[25] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[7]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[26] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[8]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[27] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[9]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[28] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rempty" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[29] -to "dacout:ad5791_ctrl|clr" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[30] -to "dacout:ad5791_ctrl|en" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[31] -to "dacout:ad5791_ctrl|fsm_cnt[0]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[32] -to "dacout:ad5791_ctrl|fsm_cnt[1]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[33] -to "dacout:ad5791_ctrl|fsm_cnt[2]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[34] -to "dacout:ad5791_ctrl|fsm_cnt[3]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[35] -to "dacout:ad5791_ctrl|fsm_cnt[4]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[36] -to "dacout:ad5791_ctrl|fsm_init" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[37] -to "dacout:ad5791_ctrl|fsm_sf_data[0]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[38] -to "dacout:ad5791_ctrl|fsm_sf_data[10]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[39] -to "dacout:ad5791_ctrl|fsm_sf_data[11]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[40] -to "dacout:ad5791_ctrl|fsm_sf_data[12]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[41] -to "dacout:ad5791_ctrl|fsm_sf_data[13]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[42] -to "dacout:ad5791_ctrl|fsm_sf_data[14]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[43] -to "dacout:ad5791_ctrl|fsm_sf_data[15]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[44] -to "dacout:ad5791_ctrl|fsm_sf_data[16]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[45] -to "dacout:ad5791_ctrl|fsm_sf_data[17]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[46] -to "dacout:ad5791_ctrl|fsm_sf_data[18]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[47] -to "dacout:ad5791_ctrl|fsm_sf_data[19]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[48] -to "dacout:ad5791_ctrl|fsm_sf_data[1]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[49] -to "dacout:ad5791_ctrl|fsm_sf_data[2]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[50] -to "dacout:ad5791_ctrl|fsm_sf_data[3]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[51] -to "dacout:ad5791_ctrl|fsm_sf_data[4]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[52] -to "dacout:ad5791_ctrl|fsm_sf_data[5]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[53] -to "dacout:ad5791_ctrl|fsm_sf_data[6]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[54] -to "dacout:ad5791_ctrl|fsm_sf_data[7]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[55] -to "dacout:ad5791_ctrl|fsm_sf_data[8]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[56] -to "dacout:ad5791_ctrl|fsm_sf_data[9]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[57] -to "dacout:ad5791_ctrl|fsm_st.00" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[58] -to "dacout:ad5791_ctrl|fsm_st.01" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[59] -to "dacout:ad5791_ctrl|fsm_st.10" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[60] -to "dacout:ad5791_ctrl|fsm_st.11" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[61] -to "dacout:ad5791_ctrl|fsm_start" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[62] -to "dacout:ad5791_ctrl|ldac" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[63] -to "dacout:ad5791_ctrl|reset" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[64] -to "dacout:ad5791_ctrl|sclk" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[65] -to "dacout:ad5791_ctrl|sclk_div_cnt[0]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[66] -to "dacout:ad5791_ctrl|sclk_div_cnt[1]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[67] -to "dacout:ad5791_ctrl|sclk_div_cnt[2]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[68] -to "dacout:ad5791_ctrl|sclk_div_cnt[3]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[69] -to "dacout:ad5791_ctrl|sclk_div_cnt[4]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[70] -to "dacout:ad5791_ctrl|sdin" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[71] -to "dacout:ad5791_ctrl|sdo" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[72] -to "dacout:ad5791_ctrl|start" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[73] -to "dacout:ad5791_ctrl|sync" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[74] -to "dacout:ad5791_ctrl|tx_data[0]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[75] -to "dacout:ad5791_ctrl|tx_data[10]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[76] -to "dacout:ad5791_ctrl|tx_data[11]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[77] -to "dacout:ad5791_ctrl|tx_data[12]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[78] -to "dacout:ad5791_ctrl|tx_data[13]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[79] -to "dacout:ad5791_ctrl|tx_data[14]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[80] -to "dacout:ad5791_ctrl|tx_data[15]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[81] -to "dacout:ad5791_ctrl|tx_data[16]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[82] -to "dacout:ad5791_ctrl|tx_data[17]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[83] -to "dacout:ad5791_ctrl|tx_data[18]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[84] -to "dacout:ad5791_ctrl|tx_data[19]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[85] -to "dacout:ad5791_ctrl|tx_data[1]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[86] -to "dacout:ad5791_ctrl|tx_data[2]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[87] -to "dacout:ad5791_ctrl|tx_data[3]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[88] -to "dacout:ad5791_ctrl|tx_data[4]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[89] -to "dacout:ad5791_ctrl|tx_data[5]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[90] -to "dacout:ad5791_ctrl|tx_data[6]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[91] -to "dacout:ad5791_ctrl|tx_data[7]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[92] -to "dacout:ad5791_ctrl|tx_data[8]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[93] -to "dacout:ad5791_ctrl|tx_data[9]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[94] -to "dacout:ad5791_ctrl|tx_dv" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_trigger_in[95] -to "dacout:ad5791_ctrl|tx_waitrequest" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[0] -to CLR -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[1] -to LDAC -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[2] -to RESET -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[3] -to SCLK -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[4] -to SDIN -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[5] -to SDO -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[6] -to SYNC -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[7] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rd" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[8] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[0]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[9] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[10]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[10] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[11]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[11] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[12]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[12] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[13]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[13] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[14]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[14] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[15]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[15] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[16]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[16] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[17]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[17] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[18]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[18] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[19]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[19] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[1]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[20] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[2]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[21] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[3]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[22] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[4]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[23] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[5]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[24] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[6]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[25] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[7]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[26] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[8]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[27] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rdata[9]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[28] -to "dacout:ad5791_ctrl|asyn_fifo:txbuf|rempty" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[29] -to "dacout:ad5791_ctrl|clr" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[30] -to "dacout:ad5791_ctrl|en" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[31] -to "dacout:ad5791_ctrl|fsm_cnt[0]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[32] -to "dacout:ad5791_ctrl|fsm_cnt[1]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[33] -to "dacout:ad5791_ctrl|fsm_cnt[2]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[34] -to "dacout:ad5791_ctrl|fsm_cnt[3]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[35] -to "dacout:ad5791_ctrl|fsm_cnt[4]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[36] -to "dacout:ad5791_ctrl|fsm_init" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[37] -to "dacout:ad5791_ctrl|fsm_sf_data[0]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[38] -to "dacout:ad5791_ctrl|fsm_sf_data[10]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[39] -to "dacout:ad5791_ctrl|fsm_sf_data[11]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[40] -to "dacout:ad5791_ctrl|fsm_sf_data[12]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[41] -to "dacout:ad5791_ctrl|fsm_sf_data[13]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[42] -to "dacout:ad5791_ctrl|fsm_sf_data[14]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[43] -to "dacout:ad5791_ctrl|fsm_sf_data[15]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[44] -to "dacout:ad5791_ctrl|fsm_sf_data[16]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[45] -to "dacout:ad5791_ctrl|fsm_sf_data[17]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[46] -to "dacout:ad5791_ctrl|fsm_sf_data[18]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[47] -to "dacout:ad5791_ctrl|fsm_sf_data[19]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[48] -to "dacout:ad5791_ctrl|fsm_sf_data[1]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[49] -to "dacout:ad5791_ctrl|fsm_sf_data[2]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[50] -to "dacout:ad5791_ctrl|fsm_sf_data[3]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[51] -to "dacout:ad5791_ctrl|fsm_sf_data[4]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[52] -to "dacout:ad5791_ctrl|fsm_sf_data[5]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[53] -to "dacout:ad5791_ctrl|fsm_sf_data[6]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[54] -to "dacout:ad5791_ctrl|fsm_sf_data[7]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[55] -to "dacout:ad5791_ctrl|fsm_sf_data[8]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[56] -to "dacout:ad5791_ctrl|fsm_sf_data[9]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[57] -to "dacout:ad5791_ctrl|fsm_st.00" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[58] -to "dacout:ad5791_ctrl|fsm_st.01" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[59] -to "dacout:ad5791_ctrl|fsm_st.10" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[60] -to "dacout:ad5791_ctrl|fsm_st.11" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[61] -to "dacout:ad5791_ctrl|fsm_start" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[62] -to "dacout:ad5791_ctrl|ldac" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[63] -to "dacout:ad5791_ctrl|reset" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[64] -to "dacout:ad5791_ctrl|sclk" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[65] -to "dacout:ad5791_ctrl|sclk_div_cnt[0]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[66] -to "dacout:ad5791_ctrl|sclk_div_cnt[1]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[67] -to "dacout:ad5791_ctrl|sclk_div_cnt[2]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[68] -to "dacout:ad5791_ctrl|sclk_div_cnt[3]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[69] -to "dacout:ad5791_ctrl|sclk_div_cnt[4]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[70] -to "dacout:ad5791_ctrl|sdin" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[71] -to "dacout:ad5791_ctrl|sdo" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[72] -to "dacout:ad5791_ctrl|start" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[73] -to "dacout:ad5791_ctrl|sync" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[74] -to "dacout:ad5791_ctrl|tx_data[0]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[75] -to "dacout:ad5791_ctrl|tx_data[10]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[76] -to "dacout:ad5791_ctrl|tx_data[11]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[77] -to "dacout:ad5791_ctrl|tx_data[12]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[78] -to "dacout:ad5791_ctrl|tx_data[13]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[79] -to "dacout:ad5791_ctrl|tx_data[14]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[80] -to "dacout:ad5791_ctrl|tx_data[15]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[81] -to "dacout:ad5791_ctrl|tx_data[16]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[82] -to "dacout:ad5791_ctrl|tx_data[17]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[83] -to "dacout:ad5791_ctrl|tx_data[18]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[84] -to "dacout:ad5791_ctrl|tx_data[19]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[85] -to "dacout:ad5791_ctrl|tx_data[1]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[86] -to "dacout:ad5791_ctrl|tx_data[2]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[87] -to "dacout:ad5791_ctrl|tx_data[3]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[88] -to "dacout:ad5791_ctrl|tx_data[4]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[89] -to "dacout:ad5791_ctrl|tx_data[5]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[90] -to "dacout:ad5791_ctrl|tx_data[6]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[91] -to "dacout:ad5791_ctrl|tx_data[7]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[92] -to "dacout:ad5791_ctrl|tx_data[8]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[93] -to "dacout:ad5791_ctrl|tx_data[9]" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[94] -to "dacout:ad5791_ctrl|tx_dv" -section_id dac
+set_instance_assignment -name CONNECT_TO_SLD_NODE_ENTITY_PORT acq_data_in[95] -to "dacout:ad5791_ctrl|tx_waitrequest" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_RAM_BLOCK_TYPE=AUTO" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_DATA_BITS=96" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_BITS=96" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_BITS=96" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_NODE_INFO=805334529" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_POWER_UP_TRIGGER=1" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK=000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100011101111111" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INVERSION_MASK_LENGTH=312" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STORAGE_QUALIFIER_INVERSION_MASK_LENGTH=0" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SEGMENT_SIZE=1024" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ATTRIBUTE_MEM_MODE=OFF" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_FLOW_USE_GENERATED=0" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_STATE_BITS=11" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_BUFFER_FULL_STOP=1" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_CURRENT_RESOURCE_WIDTH=1" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_INCREMENTAL_ROUTING=1" -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[0] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[1] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[2] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[3] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[4] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[5] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[6] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[7] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[8] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[9] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[10] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[11] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[12] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[13] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[14] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[15] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[16] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[17] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[18] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[19] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[20] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[21] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[22] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[23] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[24] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[25] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[26] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[27] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[28] -to dac|gnd -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[29] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[30] -to dac|vcc -section_id dac
+set_instance_assignment -name POST_FIT_CONNECT_TO_SLD_NODE_ENTITY_PORT crc[31] -to dac|gnd -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL=1" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_SAMPLE_DEPTH=1024" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_IN_ENABLED=0" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ADVANCED_TRIGGER_ENTITY=basic,1," -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_TRIGGER_LEVEL_PIPELINE=1" -section_id dac
+set_global_assignment -name SLD_NODE_PARAMETER_ASSIGNMENT "SLD_ENABLE_ADVANCED_TRIGGER=0" -section_id dac
+set_global_assignment -name SLD_FILE db/stp1_auto_stripped.stp
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
