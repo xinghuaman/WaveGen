@@ -21,6 +21,7 @@ module top
 (
    // Clock Source
    CLK1,
+   CLK3,
    // Wave Control
    wave_sel,
    wave_gain,
@@ -59,6 +60,7 @@ module top
 
    ////////////////// PORT ////////////////////
    input          CLK1; // 48MHz
+   input          CLK3; // 6MHz
    
    input  [2:0]   wave_sel;
    input  [2:0]   wave_gain;
@@ -291,7 +293,7 @@ module top
       .tx_dv         (dac_dv           ),
       .tx_data       (dac_data         ),
       .tx_waitrequest(dac_waitrequest  ),
-      .mclk          (mclk             ),
+      .mclk          (CLK3             ),
       .start         (dac_start        ),
       .en            (dac_en&wave_start),
       .sclk          (dac_sclk         ),

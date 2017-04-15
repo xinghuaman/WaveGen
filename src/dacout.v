@@ -107,6 +107,7 @@ module dacout
          sclk_div_cnt <= 0;
    end
    
+	// maximum Tcycle = 28ns
    assign sclk = sync ? (sclk_div_cnt>=0 && sclk_div_cnt<`DAC_SCLK_DIV/2) : `HIGH;
    
    ////////////////// Serial Output
